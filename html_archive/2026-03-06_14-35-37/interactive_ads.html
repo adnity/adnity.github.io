@@ -25,8 +25,8 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
         <script>
-                        (function() {
-            const encrypted = "U2FsdGVkX1/iRDhfKGUjmWElVwDmoCEFHU4jzcR4PvU=";
+                                (function() {
+            const encrypted = "U2FsdGVkX1/mUWK3CyU2+Og94M7T4XOfBK3w6m2BleI=";
             
             function performUnlock(pwd) {
                 try {
@@ -36,21 +36,23 @@
                     
                     sessionStorage.setItem('olx_dashboard_pin', pwd);
                     
-                    // NATIVE AND BULLETPROOF WAY
+                    // Native wipe.
                     document.open();
-                    document.write(decoded);
-                    document.close();
                     
-                    // Force iframes to reload after document write to fix relative paths resolving
-                    setTimeout(() => {
-                        const iframes = document.querySelectorAll('iframe');
-                        iframes.forEach(f => {
-                            const src = f.getAttribute('src');
-                            if (src) {
-                                f.src = src; // Force a re-fetch in the new context
-                            }
-                        });
-                    }, 50);
+                    // We inject a <base> tag dynamically so iframes know where to resolve relative URLs!
+                    const currentUrl = window.location.href.split('?')[0].split('#')[0];
+                    const baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/') + 1);
+                    
+                    // Find where <head> ends, or just inject it right after <head>
+                    let finalHtml = decoded;
+                    if (finalHtml.includes('<head>')) {
+                        finalHtml = finalHtml.replace('<head>', '<head><base href="' + baseUrl + '">');
+                    } else {
+                        finalHtml = '<base href="' + baseUrl + '">' + finalHtml;
+                    }
+
+                    document.write(finalHtml);
+                    document.close();
 
                 } catch(e) {
                     sessionStorage.removeItem('olx_dashboard_pin');
