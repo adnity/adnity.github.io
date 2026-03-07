@@ -1,32 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Secured Area</title>
-<style>
-    body.auth-body { font-family: system-ui, -apple-system, sans-serif; background: #0f172a; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-    .box { background: #1e293b; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center; width: 100%; max-width: 350px; box-sizing: border-box; }
-    h2 { margin-top: 0; color: #f3f4f6; }
-    input { padding: 14px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; margin-bottom: 15px; font-size: 18px; outline: none; text-align: center; width: 100%; box-sizing: border-box; transition: border-color 0.2s; }
-    input:focus { border-color: #3b82f6; }
-    button { background: #3b82f6; color: white; border: none; padding: 14px 20px; border-radius: 6px; font-size: 18px; cursor: pointer; font-weight: bold; width: 100%; box-sizing: border-box; transition: background 0.2s; }
-    button:hover { background: #2563eb; }
-    .error { color: #ef4444; margin-top: 15px; display: none; font-size: 14px; font-weight: bold; }
-</style>
 </head>
-<body class="auth-body">
+<body id="auth-body">
+    <div id="auth-styles"></div>
     <div class="box" id="box" style="display: none;">
         <h2>🔒 Secured Dashboard</h2>
         <input type="password" id="pwd" placeholder="Enter PIN" autofocus>
         <br>
         <button id="btn">Unlock</button>
-        <div id="error" class="error">Incorrect PIN!</div>
+        <div id="error" class="error" style="color: #ef4444; margin-top: 15px; display: none; font-weight: bold; font-family: sans-serif;">Incorrect PIN!</div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-        <script>
-                                (function() {
-            const encrypted = "U2FsdGVkX19YlHuFnY0mX+6YgsYEa2beXz83ylJEOaJeKto1PzAy96KkiUrtbHBW4WXtiFNWe3eIuV5EODDCeTfHPVnfogako1lvzqpac4Qq8XIZgar/Qps3SFczR4UTU62D4FnSanBi9dqTWah7NsL9BSxLsKHKS0MoknKGcda/4U0sxRaKtxXZATCnCAgTOXhgGs9M0r+PPKQop8HYbhVaeGCkytQzxqtmJfDIPV9OqAmzR9ZH9FzX5laK/XEM9THkMB96kLgnTK9KI9+ZbifcoGeHtq9MqgAf81eYYwDZZvy1LS6y2Wodq8Z+UBKHgptGJzJWQQ7qCb5xCUkAW6w1NrFDbsPCuryJlZwZb0Gbwdl0InxTiwMsKHJq4vvJpCFbe+x3C0ArabIw5IZvBGKTMVao3emq9+bD2mxF7Xqmc14jaXIg3PrCQxpbQK5wa/PLEEOgtRBiZu+dTdjTAVgTbi4B+gbH2m3qY1+DSiu1TgNpOfwDIoTi29TOOmtItSOa/JqS6avDu+ETBBAGHLxIOba20IxssVASt6mwpYgWDgrVdsN+mnxgmYPWPgomb9O5fq7uNuYdTXFLKCyvah+2psAjRq5yETZ0PsjU/5J43P4VLyeRj0i4Any6Jtg2PDWStT64j5kTV2yxoHyGB3O07G9ZNQF1tZG/MA5O6SDkv3+kspV+prqc4PIkhz60y2VI2Tb87MxtZo62fUg8kHHTJJah/wC0pHImXe6/vYFbyo2rxfx5FlOfFH/NXxkmKC8fY0al6fuivHnJAnwObxNKMwtwGIjTISQg//EoMmUbW/hiqkoaqfKoH4IaxjZcuUe0QGEpnwa4EkgjDvHzORDNk3Mj631oAOWyg5OneEGL7lbPCFj/xYeyvyqJxo87n3TGa6oGw2X02+IHehOg3UYeDCaRjPykYDW17CrFHMgw+HmYu3wcyR3reUjxDmhywlbwCi5zWCVjgsyqArmXsiEJ8hgPeSuSHZ8k0wab0FM2lOqVmA/sYbIJ+DwP6poTvwPWAVnAJnaYoTR5VxM/wqEWnTt2u0V38i/T126JaCWTOY46IvXDfehsL9cnOUhVmov3HKOuD2IO5k/qtNnTZ4R9CpxwVGxKoVAUygXYjqCyAMpNPXYuoJAJylhfQUFuPJ+gJfBg6F+parD2QAfkK/XiRshcaXykOb9hJgs6chrPoGzqsLm/dIu6Xfljv+VHKokJckuvMW0vgYf1ZJ5V57f34/7YbFcOdnzleF17pmq7F47cwZjxggwxrrtv8NAEJ1WZB9BUHk0MBkGdRxI4ePGwyp+2XXX78YtUIlGWNDNZodVxkyA1DI4TXkky+ziIxFfoXAqCXHY90EQFaCcV+/TvjaqchBJu+qSWebdKlV9+DjxLoGDdn/TWxQmv1TQiio66+xFpU63JhJa0iVpAgSZXfOZK35N4vtvAoDKb9InFOFhp79FtRRptDPXVTVFiVe/6KXvd5eq96AZ9UyDiDh0jj6fNTh1WwztSoCRI+CSx4tWJvim0nZ5W3c9IEGWMEBMogPYA8jXtLKIzvTRkFK9NMe5r9Ls1zoSHwE3//j82sWJWpaYZhnD6IjpU1C1zYvumkUlq2Z3hLl1m9BuU4FIY2OmMgxP9z4cFnbfAc/lFddpfJWbDHny0mCJDdL28DCu3L5UFF7pEh3XUT3nVnSHF+GMnmlOJB5gK9rxPhqGUycqa6qS3vnMnYsPTteioNwWD1apmTQ11wuwTKl8Cwy8izO7GehrShCUBv3HiW2y5Ryvf9bsjv14NgGLAeVWd1vnb5kCPtjgbnpvHopcJon3Bs9ElOKhm6Nc3g3uSIh/uuCjhJJatVFUsY7c/jFlY692dX0WFmyD+4JbPmz3kjVCv+4P25x89kQTQXgNgmG9F6FaTirhKr78jMdK6/E93eQfErkYD8fN1AZ//VV+58lXeCGFd3qndVUKPF1eh2E0EYwpe2t2/XLDsJU5/25UXQBNprIokth22RQTtwUqrqxSCEba1hYMw5tpB9Yty7SwpN3ToA4U7j/CqA/E7zhbht0/ooNeB/cZ2Hi7aeS8pFDO6seGY6rKQioewoWBs/SZilyGksiShdI0sXeHJoPugVK768797/3SDHxM6BwTnnIi6l4OtiEE/JFMy+L/W6mtVcHLlE5jrLVWaNprbGrjUz+Wh5WJwhMu9FTIhwjermbr9V/ecM2qQt293L9VDdlIu+MN1SF1GG5W7kfsAFO86erAN37qG+KYGkTS5Z1LXK8bthgmUC8H6RUw3ZxTmPxB9UsPNhK6tAl9RvHXT8BsT0GRb94zEVNbVmBA8MK4Kx2yF9jK8qQIC0W6JZ94U1WtoAfWZYAS7pT6iJBMAj8ylfFeonng7cLzBUHZIQ4BBE3S6jFhhGUa6/bqhSfLwOdeUDjktWWGJ5zCa5mi+hWvmW4hso9jfGCo5d82dYBg6PD6Bu3fDXLAM84iKX/20Il69hCCjJoSW+UDVJduRZAPMBjFGEc3mObaUyMf3kxfIp/q2OYatY7JE2by+d4SFZWX1bqRSEJDjxydrSoTd0TRITayaWR3TXL6Rsso1zrJCw8GvXJTl6FTrQdaEMKtDsWitz7aW9ixk1pfkVNt8gerokWunluLTiLF7QUQDe2YX738PgWPiGURQ9XFuGxYWfS7JeG1Y2QloER30Eqvu1N2a/jMrALfUc5WIv+5FQozw/aDTra21rb/Irpe3v4iLbQ6EZPBHwQvotZqsWjIs4trsiT2i0SirU53KlaCPuXDB7oGuDdWQ714s0UtqLd+ShogpN0lpzdYGxQfTlGalGDW0E4Ml2P1Nt0urbMQ7P0At2tMJGnHjjTToq1YFFkFqy1L9RPFTs3e/CKjo1acxYOFd8oq1OKkvuBbDQbSgAPKXnur0IwABoJhn5spRt9GRaEKGxPp08S2lhzPMcDBRiy5AduU3HRXnJWssq9XBijWhnW3juH12RHIIZlrnxlZwaUgfNcpdNYlc2goQjYjRY1siq8BQbAJ6DXnJZyae9WcnYCxvofeuq6tJR/ng/5T9DDSLwpUL5+gQlalE2pWG9kcb3hhggeRomGbX3lL9Fa8JHxQTadlFB//yBK0X8zpqRVxk1TMT6a4Rx9Ryu2F2UFe9V3F93X2neI18lNhz1GOmtcB96a+Epjk0eYo19E1c2Lf6a9Mp7cXI8HuId3ZbBQTF2o0hy3b9lOotZYa2lIz9/eDODcxm77Vewwnw8vwzDgu8LojyYolicCLZ6OKZB2ADm+i4NaAS9gMH4TRCdkPRiyDxzcme2E/fKOMrUI37ovU5qkIZpscIPJLYsYCB2nqqwA7nJh9Pdis4i5gzhzeOx5PMHnL6pju8/f8QIM5UZaGJXl3ZF5dYftU4QzZeRiLc5Sk40EY2+66mZ4eVNTcmKIcMpVeWc1oCZLiR91BLxey66kaLclRHnu8LBy8euwwjxxvoHLMa1XtAZOjfMvQIsw==";
+    <script>
+        (function() {
+            const encrypted = "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";
+            
+            // We inject the CSS strictly via JS so we can destroy it without a trace.
+            const styleString = "body { background: #0f172a; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: sans-serif; } .box { background: #1e293b; padding: 30px; border-radius: 12px; text-align: center; color: white; width: 100%; max-width: 350px; box-sizing: border-box; } input { padding: 14px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; margin-bottom: 15px; font-size: 18px; text-align: center; width: 100%; box-sizing: border-box; } button { background: #3b82f6; color: white; border: none; padding: 14px 20px; border-radius: 6px; font-size: 18px; cursor: pointer; font-weight: bold; width: 100%; box-sizing: border-box; }";
+            
+            function applyAuthStyles() {
+                const styleDiv = document.getElementById('auth-styles');
+                if (styleDiv && styleDiv.innerHTML === '') {
+                    styleDiv.innerHTML = '<style id="auth-css">' + styleString + '</style>';
+                }
+            }
+
+            function removeAuthStyles() {
+                const cssNode = document.getElementById('auth-css');
+                if (cssNode) cssNode.remove();
+                document.body.removeAttribute("style");
+                document.documentElement.removeAttribute("style");
+            }
             
             function performUnlock(pwd) {
                 try {
@@ -36,14 +44,14 @@
                     
                     sessionStorage.setItem('olx_dashboard_pin', pwd);
                     
-                    // Native wipe.
+                    // We must nuke our temporary CSS before injecting the real app
+                    removeAuthStyles();
+                    
                     document.open();
                     
-                    // We inject a <base> tag dynamically so iframes know where to resolve relative URLs!
                     const currentUrl = window.location.href.split('?')[0].split('#')[0];
                     const baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/') + 1);
                     
-                    // Find where <head> ends, or just inject it right after <head>
                     let finalHtml = decoded;
                     if (finalHtml.includes('<head>')) {
                         finalHtml = finalHtml.replace('<head>', '<head><base href="' + baseUrl + '">');
@@ -56,6 +64,7 @@
 
                 } catch(e) {
                     sessionStorage.removeItem('olx_dashboard_pin');
+                    applyAuthStyles();
                     const box = document.getElementById('box');
                     const error = document.getElementById('error');
                     const pwdField = document.getElementById('pwd');
@@ -68,10 +77,12 @@
             function init() {
                 const savedPin = sessionStorage.getItem('olx_dashboard_pin');
                 if (savedPin) {
+                    // Try to unlock silently without ever applying auth styles
                     const box = document.getElementById('box');
                     if(box) box.style.display = 'none';
                     performUnlock(savedPin);
                 } else {
+                    applyAuthStyles();
                     const box = document.getElementById('box');
                     if(box) box.style.display = 'block';
                 }
