@@ -25,8 +25,8 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
         <script>
-        (function() {
-            const encrypted = "U2FsdGVkX186Fs97zhQRoomKLalawfRhh2XKXeyA3xg=";
+                (function() {
+            const encrypted = "U2FsdGVkX19NR5FvkFlH/25bYnH8EZU/MaGqHdiNgxU=";
             
             function performUnlock(pwd) {
                 try {
@@ -36,11 +36,21 @@
                     
                     sessionStorage.setItem('olx_dashboard_pin', pwd);
                     
-                    // We must completely wipe the document context to avoid CSS bleeding
-                    // and ensure history/refresh works correctly
-                    const newDoc = document.open("text/html", "replace");
-                    newDoc.write(decoded);
-                    newDoc.close();
+                    // Create a new parser to parse the decoded HTML
+                    const parser = new DOMParser();
+                    const newDoc = parser.parseFromString(decoded, 'text/html');
+                    
+                    // Replace the entire document content to preserve relative URLs and context
+                    document.replaceChild(newDoc.documentElement, document.documentElement);
+                    
+                    // Scripts inside parsed HTML do not execute automatically, we must re-inject them
+                    Array.from(document.querySelectorAll('script')).forEach(oldScript => {
+                        const newScript = document.createElement('script');
+                        Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                        newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+                        oldScript.parentNode.replaceChild(newScript, oldScript);
+                    });
+                    
                 } catch(e) {
                     sessionStorage.removeItem('olx_dashboard_pin');
                     const box = document.getElementById('box');
@@ -64,7 +74,6 @@
                 }
             }
 
-            // Bind events
             const btn = document.getElementById('btn');
             const pwdField = document.getElementById('pwd');
             if(btn && pwdField) {
