@@ -24,54 +24,62 @@
         <div id="error" class="error">Incorrect PIN!</div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script>
-        const encrypted = "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";
-        
-        function performUnlock(pwd) {
-            try {
-                const bytes = CryptoJS.AES.decrypt(encrypted, pwd);
-                const decoded = bytes.toString(CryptoJS.enc.Utf8);
-                if (!decoded) throw new Error("Bad password");
-                
-                // Zapisz prawidłowe hasło w sesji przeglądarki
-                sessionStorage.setItem('olx_dashboard_pin', pwd);
-                
-                // Przebuduj stronę odszyfrowanym kodem
-                document.open();
-                document.write(decoded);
-                document.close();
-            } catch(e) {
-                // Usuń błędne hasło jeśli było zapisane
-                sessionStorage.removeItem('olx_dashboard_pin');
-                
-                document.getElementById('box').style.display = 'block';
-                document.getElementById('error').style.display = 'block';
-                document.getElementById('pwd').value = '';
-                document.getElementById('pwd').focus();
+        <script>
+        (function() {
+            const encrypted = "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";
+            
+            function performUnlock(pwd) {
+                try {
+                    const bytes = CryptoJS.AES.decrypt(encrypted, pwd);
+                    const decoded = bytes.toString(CryptoJS.enc.Utf8);
+                    if (!decoded) throw new Error("Bad password");
+                    
+                    sessionStorage.setItem('olx_dashboard_pin', pwd);
+                    
+                    // We must completely wipe the document context to avoid CSS bleeding
+                    // and ensure history/refresh works correctly
+                    const newDoc = document.open("text/html", "replace");
+                    newDoc.write(decoded);
+                    newDoc.close();
+                } catch(e) {
+                    sessionStorage.removeItem('olx_dashboard_pin');
+                    const box = document.getElementById('box');
+                    const error = document.getElementById('error');
+                    const pwdField = document.getElementById('pwd');
+                    if(box) box.style.display = 'block';
+                    if(error) error.style.display = 'block';
+                    if(pwdField) { pwdField.value = ''; pwdField.focus(); }
+                }
             }
-        }
 
-        function init() {
-            const savedPin = sessionStorage.getItem('olx_dashboard_pin');
-            if (savedPin) {
-                document.getElementById('box').style.display = 'none';
-                performUnlock(savedPin);
+            function init() {
+                const savedPin = sessionStorage.getItem('olx_dashboard_pin');
+                if (savedPin) {
+                    const box = document.getElementById('box');
+                    if(box) box.style.display = 'none';
+                    performUnlock(savedPin);
+                } else {
+                    const box = document.getElementById('box');
+                    if(box) box.style.display = 'block';
+                }
+            }
+
+            // Bind events
+            const btn = document.getElementById('btn');
+            const pwdField = document.getElementById('pwd');
+            if(btn && pwdField) {
+                btn.onclick = () => performUnlock(pwdField.value);
+                pwdField.addEventListener('keyup', function(e) {
+                    if (e.key === 'Enter') performUnlock(pwdField.value);
+                });
+            }
+
+            if (typeof CryptoJS !== 'undefined') {
+                init();
             } else {
-                document.getElementById('box').style.display = 'block';
+                window.addEventListener('load', init);
             }
-        }
-
-        document.getElementById('btn').onclick = () => performUnlock(document.getElementById('pwd').value);
-        document.getElementById('pwd').addEventListener('keyup', function(e) {
-            if (e.key === 'Enter') performUnlock(document.getElementById('pwd').value);
-        });
-
-        // Ensure init runs after CryptoJS is definitely loaded
-        if (typeof CryptoJS !== 'undefined') {
-            init();
-        } else {
-            window.addEventListener('load', init);
-        }
+        })();
     </script>
 </body>
 </html>
