@@ -1,10 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="refresh" content="0; url=dashboard.html">
-    <title>Redirecting...</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OLX Dashboard Loading...</title>
+    <style>
+        body { background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }
+    </style>
+    <script>
+        window.onload = function() {
+            // Check if device is likely a mobile phone
+            if (window.innerWidth <= 800 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                window.location.replace("dashboard.html");
+            } else {
+                window.location.replace("main.html");
+            }
+        };
+    </script>
 </head>
 <body>
-    <p>Redirecting to <a href="dashboard.html">latest dashboard</a>...</p>
+    <p>Loading your secured environment...</p>
 </body>
 </html>
