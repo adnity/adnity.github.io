@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Secured Area</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E  %3Crect width='100' height='100' rx='20' fill='%231e293b'/%3E  %3Crect x='20' y='55' width='15' height='25' rx='4' fill='%233b82f6'/%3E  %3Crect x='42' y='35' width='15' height='45' rx='4' fill='%2360a5fa'/%3E  %3Crect x='65' y='15' width='15' height='65' rx='4' fill='%2393c5fd'/%3E%3C/svg%3E">
+</head>
+<body id="auth-body">
+    <div id="auth-styles"></div>
+    <div class="box" id="box" style="display: none;">
+        <h2>🔒 Secured Dashboard</h2>
+        <input type="password" id="pwd" placeholder="Enter PIN" autofocus>
+        <br>
+        <button id="btn">Unlock</button>
+        <div id="error" class="error" style="color: #ef4444; margin-top: 15px; display: none; font-weight: bold; font-family: sans-serif;">Incorrect PIN!</div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+        (function() {
+            const encrypted = "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";
+            
+            // We inject the CSS strictly via JS so we can destroy it without a trace.
+            const styleString = "body { background: #0f172a; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: sans-serif; } .box { background: #1e293b; padding: 30px; border-radius: 12px; text-align: center; color: white; width: 100%; max-width: 350px; box-sizing: border-box; } input { padding: 14px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; margin-bottom: 15px; font-size: 18px; text-align: center; width: 100%; box-sizing: border-box; } button { background: #3b82f6; color: white; border: none; padding: 14px 20px; border-radius: 6px; font-size: 18px; cursor: pointer; font-weight: bold; width: 100%; box-sizing: border-box; }";
+            
+            function applyAuthStyles() {
+                const styleDiv = document.getElementById('auth-styles');
+                if (styleDiv && styleDiv.innerHTML === '') {
+                    styleDiv.innerHTML = '<style id="auth-css">' + styleString + '</style>';
+                }
+            }
+
+            function removeAuthStyles() {
+                const cssNode = document.getElementById('auth-css');
+                if (cssNode) cssNode.remove();
+                document.body.removeAttribute("style");
+                document.documentElement.removeAttribute("style");
+            }
+            
+            function performUnlock(pwd) {
+                try {
+                    const bytes = CryptoJS.AES.decrypt(encrypted, pwd);
+                    const decoded = bytes.toString(CryptoJS.enc.Utf8);
+                    if (!decoded) throw new Error("Bad password");
+                    
+                    sessionStorage.setItem('olx_dashboard_pin', pwd);
+                    
+                    // We must nuke our temporary CSS before injecting the real app
+                    removeAuthStyles();
+                    
+                    document.open();
+                    
+                    const currentUrl = window.location.href.split('?')[0].split('#')[0];
+                    const baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/') + 1);
+                    
+                    let finalHtml = decoded;
+                    if (finalHtml.includes('<head>')) {
+                        finalHtml = finalHtml.replace('<head>', '<head><base href="' + baseUrl + '">');
+                    } else {
+                        finalHtml = '<base href="' + baseUrl + '">' + finalHtml;
+                    }
+
+                    document.write(finalHtml);
+                    document.close();
+
+                } catch(e) {
+                    sessionStorage.removeItem('olx_dashboard_pin');
+                    applyAuthStyles();
+                    const box = document.getElementById('box');
+                    const error = document.getElementById('error');
+                    const pwdField = document.getElementById('pwd');
+                    if(box) box.style.display = 'block';
+                    if(error) error.style.display = 'block';
+                    if(pwdField) { pwdField.value = ''; pwdField.focus(); }
+                }
+            }
+
+            function init() {
+                const savedPin = sessionStorage.getItem('olx_dashboard_pin');
+                if (savedPin) {
+                    // Try to unlock silently without ever applying auth styles
+                    const box = document.getElementById('box');
+                    if(box) box.style.display = 'none';
+                    performUnlock(savedPin);
+                } else {
+                    applyAuthStyles();
+                    const box = document.getElementById('box');
+                    if(box) box.style.display = 'block';
+                }
+            }
+
+            const btn = document.getElementById('btn');
+            const pwdField = document.getElementById('pwd');
+            if(btn && pwdField) {
+                btn.onclick = () => performUnlock(pwdField.value);
+                pwdField.addEventListener('keyup', function(e) {
+                    if (e.key === 'Enter') performUnlock(pwdField.value);
+                });
+            }
+
+            if (typeof CryptoJS !== 'undefined') {
+                init();
+            } else {
+                window.addEventListener('load', init);
+            }
+        })();
+    </script>
+</body>
+</html>
