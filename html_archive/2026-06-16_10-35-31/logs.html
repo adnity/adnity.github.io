@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Secured Area</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E  %3Crect width='100' height='100' rx='20' fill='%231e293b'/%3E  %3Crect x='20' y='55' width='15' height='25' rx='4' fill='%233b82f6'/%3E  %3Crect x='42' y='35' width='15' height='45' rx='4' fill='%2360a5fa'/%3E  %3Crect x='65' y='15' width='15' height='65' rx='4' fill='%2393c5fd'/%3E%3C/svg%3E">
+</head>
+<body id="auth-body">
+    <div id="auth-styles"></div>
+    <div class="box" id="box" style="display: none;">
+        <h2>🔒 Secured Dashboard</h2>
+        <input type="password" id="pwd" placeholder="Enter passphrase" autofocus>
+        <br>
+        <button id="btn">Unlock</button>
+        <div id="error" class="error" style="color: #ef4444; margin-top: 15px; display: none; font-weight: bold; font-family: sans-serif;">Incorrect passphrase</div>
+    </div>
+    <script>
+        (function() {
+            var encrypted = "2bd0c8412f06d5f64d29975c28f906b9:c7ee5bb6257ffe9e392a5ca7604f2816:jEPdK1tuCCfnW+96LS2A8q7uVjZMOvhdlSGjBZpYbNginFurG92OaSYeZh9lL5Gu1kMN/hynkjnxJ6UUHk9qYhOf+9wFNu8shJ263DLJFXBXL3vSAS0ZiWkWSc4SgIrQioVl8b5CUExcSziAPEHQg/7d9tNptBizBp2RSUefn1poviwNWS+6odvxQhYV0gUbONxU3nCGUjAbGay+9FPqkorLiPk1KARzXWEFFpjAiT0f1VS65IBFfj6yVoHGZjtN/oUarvVfzoXjRfameWJZgK3dbUJAoG0jxz3PWxetGKuqzCIYlUAwnAFConxFTwLEX7D5BTg8G8UUqG/daDholQo2FWj1xzkRGqmW8A2xy/VosR4Omt7chwxGMcCKS8JPEP+Fgh92l5MaUQuTD3qScj6O/iJhhPSr3GwWjArrq4mJpPZbLS1jNQ6BIfrhzJbe6P+wSCZKyyXhiOjd/OdyqbWLFxxGV2EnEXMha+14aXVmY2mKAv8B4txIkh00KNmBof3DaHpXpL2wjTMBervTNxZJUdA2KIMU72suH9vuWgUSGr140j9E8MVyvevfjG4jByD+uwGfXgIV/YRuLEkZq4KTMOVjHNea2b+bPP1xXrNyAZayNh7uCTiQwLNwvI3Y8riT9qo80OXYERxFLhCOkVHrIwasUAT/0TQB9iQmIe53pBaqj0eoQBuhc95HdHt6j3O/Afmi9wdBOFuKQ+WcF6k/fg9lVpL9vjS37V697ghLBFoIbUliIbLxuN3GOVdQ+cVmnLddR3J5q1VOkvyBf7DqlcSUhR+MH+OXP+OFjedIcDD7UPaLIJ+JgLvI2zjY0vochMLd5N1duAWFltv6vwqqn6Fth56RaPb69XU3Bb+iNKqtHChCkndgOMcogUSQKhdtacu7RnM31DIg1AGh+TCqmwdEYsEg4bQSrSdp73JKKrrKMvca+msaJ/c+flIPaAgbrUcozUGzV/GYuA8nhtNzAZV9V2hiNNp51ALyYwUIkLjQyNUO1w/c7K8SQ0kUIa+QFIsK7GzkBCbbObvpphr69jY+0B3sgpEDZIfg9m2Fg+J1o3uzgNQIue7rXaYGRc9cLgCal/oHoy4pRACnr0XJg86tECb7tThhBfXAfKcGjG9CQMPq8q5PTfhZ0/SlbuzTIMlYPurgRLTms6NvDuyrlJSVY/vDrURvKNe42EkR6W/eMuzFHmhl6XLpcCPb3S5LpbRz9thHCvr3WxAzzqdyahyOlXW2AEixQJC9vwO1q10d7uOhjbUpzyKCJwY8WszUc6yeaieJAw+wWPCJV71OPOzkGm2l69pKQgorbhKMWOrpwBXNmkxhnPJJ6mCthuKG8fG/MiRfKWtgjgy9bhk+qkifQ5mNzf689nRRT4cZ2m+GFd8jTE+ANO8qWVHp8cTL9gMsJnAyN1THo8XslsCrXKAd2dUird7hqLXhhhIlG0TRESYMvGDvwLhMBI/CHlFZ4Bg3Oo4a5qdKwqOqP5DoZaCrjrEGjoDsQ9y9GNiK+4/YfRdunsnYGBVW9nCGeDbDgsKWWZ5tTMg65XsmD4UFk+V5Z/yCKB5kmEcZN97O0OK9Miv/J3KbQVJbDUwiND1BpfOhKrThbW7d6bem5LWgow+xypb37/mMo2fMRI4Vg5uY9pDRYU+bE8EJJsGBzxTHlEwWpsDMWb15Tw2hEUZGINEyUVm4eGZCXfnH8oXSKlUXRkETivpFXiEhzYY2jzYkHeDBNWyZYLFEhwwq4LjXaJcJ3shispnWrBSAXCgjler9Kf6ZgQp7zQLMIlgzlfF+j0Y7MuP5a45+mxpDQ8XzgFdrkVBjV1j5zQwsKagapPDaXnamMJgFcOz2CRIQBmmNBiFpBu0PWvwQuJXBYIcPPzvVfZ3e/UwMmn4ihjg=";
+
+            // We inject the CSS strictly via JS so we can destroy it without a trace.
+            var styleString = "body { background: #0f172a; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: sans-serif; } .box { background: #1e293b; padding: 30px; border-radius: 12px; text-align: center; color: white; width: 100%; max-width: 350px; box-sizing: border-box; } input { padding: 14px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; margin-bottom: 15px; font-size: 18px; text-align: center; width: 100%; box-sizing: border-box; } button { background: #3b82f6; color: white; border: none; padding: 14px 20px; border-radius: 6px; font-size: 18px; cursor: pointer; font-weight: bold; width: 100%; box-sizing: border-box; }";
+
+            function applyAuthStyles() {
+                var styleDiv = document.getElementById('auth-styles');
+                if (styleDiv && styleDiv.innerHTML === '') {
+                    styleDiv.innerHTML = '<style id="auth-css">' + styleString + '</style>';
+                }
+            }
+
+            function removeAuthStyles() {
+                var cssNode = document.getElementById('auth-css');
+                if (cssNode) cssNode.remove();
+                document.body.removeAttribute('style');
+                document.documentElement.removeAttribute('style');
+            }
+
+            function hexToBytes(hex) {
+                var a = new Uint8Array(hex.length >> 1);
+                for (var i = 0; i < hex.length; i += 2) a[i >> 1] = parseInt(hex.slice(i, i + 2), 16);
+                return a;
+            }
+
+            function b64ToBytes(b64) {
+                var bin = atob(b64), a = new Uint8Array(bin.length);
+                for (var i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i);
+                return a;
+            }
+
+            /**
+             * @param {string} pwd - passphrase entered by user or recalled from localStorage
+             * @returns {Promise<void>}
+             */
+            async function performUnlock(pwd) {
+                try {
+                    var first = encrypted.indexOf(':');
+                    var second = encrypted.indexOf(':', first + 1);
+                    var salt = hexToBytes(encrypted.slice(0, first));
+                    var iv   = hexToBytes(encrypted.slice(first + 1, second));
+                    var ct   = b64ToBytes(encrypted.slice(second + 1));
+                    var keyMat = await crypto.subtle.importKey(
+                        'raw', new TextEncoder().encode(pwd), 'PBKDF2', false, ['deriveKey']
+                    );
+                    var key = await crypto.subtle.deriveKey(
+                        { name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256' },
+                        keyMat,
+                        { name: 'AES-CBC', length: 256 },
+                        false, ['decrypt']
+                    );
+                    var dec = await crypto.subtle.decrypt({ name: 'AES-CBC', iv: iv }, key, ct);
+                    var decoded = new TextDecoder().decode(dec);
+
+                    // FR-004: remember for 10 days
+                    localStorage.setItem('adnity_passphrase', pwd);
+                    localStorage.setItem('adnity_expiry', String(Date.now() + 10 * 24 * 60 * 60 * 1000));
+
+                    removeAuthStyles();
+                    document.open();
+                    var currentUrl = window.location.href.split('?')[0].split('#')[0];
+                    var baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/') + 1);
+                    var finalHtml = decoded;
+                    if (finalHtml.includes('<head>')) {
+                        finalHtml = finalHtml.replace('<head>', '<head><base href="' + baseUrl + '">');
+                    } else {
+                        finalHtml = '<base href="' + baseUrl + '">' + finalHtml;
+                    }
+                    document.write(finalHtml);
+                    document.close();
+                } catch(e) {
+                    localStorage.removeItem('adnity_passphrase');
+                    localStorage.removeItem('adnity_expiry');
+                    applyAuthStyles();
+                    var box = document.getElementById('box');
+                    var error = document.getElementById('error');
+                    var pwdField = document.getElementById('pwd');
+                    if(box) box.style.display = 'block';
+                    if(error) error.style.display = 'block';
+                    if(pwdField) { pwdField.value = ''; pwdField.focus(); }
+                }
+            }
+
+            /**
+             * @returns {Promise<void>}
+             */
+            async function init() {
+                var stored = localStorage.getItem('adnity_passphrase');
+                var expiry = parseInt(localStorage.getItem('adnity_expiry') || '0', 10);
+                if (stored && Date.now() < expiry) {
+                    var box = document.getElementById('box');
+                    if(box) box.style.display = 'none';
+                    await performUnlock(stored);
+                } else {
+                    localStorage.removeItem('adnity_passphrase');
+                    localStorage.removeItem('adnity_expiry');
+                    applyAuthStyles();
+                    var box = document.getElementById('box');
+                    if(box) box.style.display = 'block';
+                }
+            }
+
+            var btn = document.getElementById('btn');
+            var pwdField = document.getElementById('pwd');
+            if(btn && pwdField) {
+                btn.onclick = function() { performUnlock(pwdField.value); };
+                pwdField.addEventListener('keyup', function(e) {
+                    if (e.key === 'Enter') performUnlock(pwdField.value);
+                });
+            }
+
+            init();
+        })();
+    </script>
+</body>
+</html>
